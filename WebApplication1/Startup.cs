@@ -41,12 +41,13 @@ namespace WebApplication1
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+            //配置IdentityServer
             services.AddIdentityServer()
                 .AddSigningCredential(new X509Certificate2(Path.Combine(basePath,Configuration["Certificates:CerPath"]),Configuration["Certificates:Password"]))  //添加证书和密码
-                .AddTestUsers(InMemoryConfiguration.Users().ToList())
-                .AddInMemoryClients(InMemoryConfiguration.Clients())
-                .AddInMemoryApiResources(InMemoryConfiguration.ApiResources())
-                .AddInMemoryApiScopes(InMemoryConfiguration.ApiScopes);
+                .AddTestUsers(InMemoryConfiguration.Users().ToList())//用户
+                .AddInMemoryClients(InMemoryConfiguration.Clients())//客户端
+                .AddInMemoryApiResources(InMemoryConfiguration.ApiResources())//api
+                .AddInMemoryApiScopes(InMemoryConfiguration.ApiScopes); //范围
 
             services.AddSwaggerGen(c =>
             {
